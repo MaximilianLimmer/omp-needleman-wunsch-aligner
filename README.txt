@@ -1,44 +1,18 @@
-# Sequence Alignment Example 
-# Univie
+The main goal is the **maximum parallelization** of the computationally intensive matrix calculation using **OpenMP Tasks** to significantly reduce runtime on multi-core processors. The focus is on the **efficient resolution of complex data dependencies** within the Dynamic Programming (DP) grid.
 
-On Alma, compile with:
-   /opt/global/gcc-11.2.0/bin/g++ -O2 -std=c++20 -fopenmp -o gpsa  main.cpp
+## 🔑 Core Functionality and Methodology
 
-To Run (Home): 
-   ./gpsa 
+The project includes two main approaches to parallelize the DP matrix computation:
 
-To Run (Alma): 
-   srun --nodes=1 ./gpsa
-    
-Optionally you can provide other program arguments:
+1.  **Taskloop Parallelization (Diagonal):** Utilizing `#pragma omp taskloop` to parallelize loops along the anti-diagonals, with implicit synchronization via `#pragma omp taskwait`.
+2.  **Explicit Task Parallelization with Dependencies:** The advanced approach uses **`#pragma omp task depend`** clauses to precisely control the strict order (top-left-up-left) of the DP calculation. This allows for asynchronous execution and better load balancing.
+3.  **Performance Engineering:** Implementation of optimization techniques to reduce parallelization overhead, including:
+    * **False Sharing Prevention:** Padding of thread-local counters (`CACHE_LINE_PADDING`) to avoid cache line contention.
+    * **Thread-local Reduction:** Use of thread-specific counters for efficient aggregation of calculations.
 
-To run with a specific data set use: ./gpsa --x <sequence1_filename> --y <sequence2_filename>
+## 🛠️ Technologies
 
-By default, your program will look for X.txt and Y.txt. 
-
-Here are the available sequences: 
-
-1. X.txt, Y.txt, size: [51480x53640] 
-Random, big sequences.
-
-2. X2.txt, Y2.txt, size: [32768x32768] 
-Same, but this has the same size dimensions that nicely divide.
-
-2. X3.txt, Y3.txt, size: [16384x16384] 
-Same, but this has the same size dimensions that nicely divide.
-
-3. simple1.txt, simple2.txt, size: [3x5] 
-Small sequences that you can use for debugging. 
-You can change this file as you please.
-
-3. simple-longer-1.txt, simple-longer-2.txt, size: [20x20] 
-
-Small sequences that you can use for debugging. 
-You can change this file as you please.
-
-To run pass granularity modifiers use on of the following: 
- ./gpsa --x <sequence1_filename> --y <sequence2_filename> --grain_size <integer>
- ./gpsa --x <sequence1_filename> --y <sequence2_filename> --block_size_x <integer> --block_size_y <integer>
-
-You can use one, or all of them, depending on your needs.
-
+* **Language:** C++
+* **Parallelization:** OpenMP (Tasks, Taskloop, `depend` Clauses, Reduction)
+* **Algorithm:** Dynamic Programming (Needleman-Wunsch equivalent for Sequence Alignment)
+* **Build System:** [Insert your build system here, e.g., Makefiles, CMake]
