@@ -15,4 +15,4 @@ The project includes two main approaches to parallelize the DP matrix computatio
 * **Language:** C++
 * **Parallelization:** OpenMP (Tasks, Taskloop, `depend` Clauses, Reduction)
 * **Algorithm:** Dynamic Programming (Needleman-Wunsch equivalent for Sequence Alignment)
-* **Build System:** [Insert your build system here, e.g., Makefiles, CMake]
+  
