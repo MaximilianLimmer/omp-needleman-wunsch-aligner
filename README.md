@@ -1,6 +1,6 @@
 The main goal is the **maximum parallelization** of the computationally intensive matrix calculation using **OpenMP Tasks** to significantly reduce runtime on multi-core processors. The focus is on the **efficient resolution of complex data dependencies** within the Dynamic Programming (DP) grid.
 
-## 🔑 Core Functionality and Methodology
+## Core Functionality and Methodology
 
 The project includes two main approaches to parallelize the DP matrix computation:
 
@@ -10,7 +10,7 @@ The project includes two main approaches to parallelize the DP matrix computatio
     * **False Sharing Prevention:** Padding of thread-local counters (`CACHE_LINE_PADDING`) to avoid cache line contention.
     * **Thread-local Reduction:** Use of thread-specific counters for efficient aggregation of calculations.
 
-## 🛠️ Technologies
+## Technologies
 
 * **Language:** C++
 * **Parallelization:** OpenMP (Tasks, Taskloop, `depend` Clauses, Reduction)
